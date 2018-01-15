@@ -1,4 +1,4 @@
-package coin;
+package transaction;
 
 import java.nio.ByteBuffer;
 import java.security.PublicKey;
