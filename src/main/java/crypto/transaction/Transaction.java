@@ -1,7 +1,6 @@
-package transaction;
+package crypto.transaction;
 
-import coin.UTXO;
-import shared.Helper;
+import crypto.shared.Helper;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -81,7 +80,7 @@ public class Transaction {
      */
     public void removeInput(UTXO ut) {
 
-        for (int i=0; i < this.inputs.size(); i++) {
+        for (int i = 0; i < this.inputs.size(); i++) {
 
             Input input = this.inputs.get(i);
 

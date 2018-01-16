@@ -1,4 +1,4 @@
-package coin;
+package crypto.coin;
 
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;

@@ -1,4 +1,4 @@
-package shared;
+package crypto.shared;
 
 import java.security.*;
 import java.util.ArrayList;

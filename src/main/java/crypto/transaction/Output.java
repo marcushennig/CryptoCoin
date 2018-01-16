@@ -1,4 +1,4 @@
-package transaction;
+package crypto.transaction;
 
 import java.nio.ByteBuffer;
 import java.security.PublicKey;

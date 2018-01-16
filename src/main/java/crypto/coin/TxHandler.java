@@ -1,6 +1,7 @@
-package coin;
+package crypto.coin;
 
-import transaction.Transaction;
+import crypto.transaction.Transaction;
+import crypto.transaction.UTXOPool;
 
 public class TxHandler {
 
