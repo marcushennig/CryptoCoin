@@ -6,6 +6,8 @@ import java.util.Arrays;
 
 /**
  * Input of an transaction
+ * The input points to a transaction (prevTxHash = unique ID) and the index of the output
+ * (value --> address).
  */
 public class Input {
 
@@ -27,25 +29,24 @@ public class Input {
 
         if (prevHash == null) {
 
-            prevTxHash = null;
+            this.prevTxHash = null;
 
         } else {
 
-            prevTxHash = Arrays.copyOf(prevHash, prevHash.length);
-
+            this.prevTxHash = Arrays.copyOf(prevHash, prevHash.length);
         }
         outputIndex = index;
     }
 
     /**
-     *
-     * @param sig
+     * Add signature to the input
+     * @param signature The signature
      */
-    public void addSignature(byte[] sig) {
-        if (sig == null) {
-            signature = null;
+    public void addSignature(byte[] signature) {
+        if (signature == null) {
+            this.signature = null;
         } else {
-            signature = Arrays.copyOf(sig, sig.length);
+            this.signature = Arrays.copyOf(signature, signature.length);
         }
     }
 
@@ -70,7 +71,6 @@ public class Input {
         for (byte b : outputIndexBytes.array()) {
             rawData.add(b);
         }
-
         return rawData;
     }
 
@@ -87,7 +87,6 @@ public class Input {
                 rawData.add(aSignature);
             }
         }
-
         return rawData;
     }
 }

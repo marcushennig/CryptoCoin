@@ -113,7 +113,7 @@ public class Transaction {
         // Get byte data of a all outputs
         this.outputs.forEach(output -> signatureData.addAll(output.getRawData()));
 
-        return Helper.ConvertToByteArray(signatureData);
+        return Helper.convertToByteArray(signatureData);
     }
 
     /**
@@ -137,7 +137,7 @@ public class Transaction {
         this.inputs.forEach(input -> rawData.addAll(input.getRawDataWithSignature()));
         this.outputs.forEach(output -> rawData.addAll(output.getRawData()));
 
-        return Helper.ConvertToByteArray(rawData);
+        return Helper.convertToByteArray(rawData);
     }
 
     public void finalize() {
