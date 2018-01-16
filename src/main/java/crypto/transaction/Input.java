@@ -17,7 +17,7 @@ public class Input {
     /** Used output's index in the previous transaction */
     public int outputIndex;
 
-    /** The signature produced to check validity */
+    /** The signature produced to check validity, what is the message, public key? */
     public byte[] signature;
 
     /**
