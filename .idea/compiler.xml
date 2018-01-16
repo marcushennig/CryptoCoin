@@ -6,10 +6,12 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="CryptoCoin" />
         <module name="ScroogeCoin" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="CryptoCoin" target="1.8" />
       <module name="ScroogeCoin" target="1.8" />
     </bytecodeTargetLevel>
   </component>
