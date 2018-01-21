@@ -5,6 +5,7 @@ import crypto.transaction.Transaction;
 import crypto.transaction.UTXOPool;
 import jdk.javadoc.internal.doclets.toolkit.util.DocFinder;
 
+import java.security.PublicKey;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -57,16 +58,31 @@ public class TxHandler {
             }
         }
 
-        // (2) The signatures on each input of {@code transaction} are valid,
+        // (2) The signature on each input of {@code transaction} is valid,
         for (Input input: tx.getInputs()) {
+
+            // UTXO that the user has control of and that was used as
+            // input for the transaction
+            UTXO utxo = new UTXO(input.prevTxHash, input.outputIndex);
+
+            // The corresponding output of a previous transaction
+            // that generated the UTXO
+            Output output = this.utxoPool.getTxOutput(utxo);
+
             byte[] signature = input.signature;
-            // TODO: What exactly is the signature signing?
+            PublicKey publicKey = output.address;
+            ArrayList<Byte> message = input.getRawDataWithoutSignature();
+
+            if(!Helper.verifySignature(publicKey, Helper.convertToByteArray(message), signature)) {
+                return false;
+            }
         }
 
-        // (3) no UTXO is claimed multiple times by {@code transaction},
+        // (3) No UTXO is claimed multiple times by {@code transaction},
         if (claimedUtxos.stream().distinct().count() < claimedUtxos.size()) {
             return false;
         }
+
         // (4) All of {@code transaction}s output values are non-negative, and
         if(tx.getOutputs().stream().anyMatch(output -> output.value < 0)) {
             return false;
