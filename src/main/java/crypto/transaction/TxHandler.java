@@ -40,7 +40,7 @@ public class TxHandler {
      * (5) the sum of {@code transaction}s input values is greater than or equal to the sum of its output
      *     values; and false otherwise.
      */
-    public boolean isValidTransaction(Transaction tx) {
+    public boolean isValidTx(Transaction tx) {
 
         // (1) All outputs claimed by transaction are in the current UTXO pool:
         // All output claimed as inputs for transaction are
@@ -109,8 +109,29 @@ public class TxHandler {
      * updating the current UTXO pool as appropriate.
      */
     public Transaction[] handleTxs(Transaction[] possibleTxs) {
-        // IMPLEMENT THIS
-        return null;
-    }
 
+        List<Transaction> validTxs = new ArrayList<>();
+
+        for (Transaction tx: possibleTxs) {
+
+            if(this.isValidTx(tx)) {
+
+                for (Input input: tx.getInputs()) {
+
+                    // Claimed UTXO by input, remove from UTXO-pool
+                    UTXO utxo = new UTXO(input.prevTxHash, input.outputIndex);
+                    utxoPool.removeUTXO(utxo);
+                }
+
+                ArrayList<Output> outputs =tx.getOutputs();
+                for (int outputIndex = 0;  outputIndex < outputs.size();  outputIndex++) {
+
+                    UTXO utxo = new UTXO(tx.getHash(), outputIndex);
+                    utxoPool.addUTXO(utxo, outputs.get(outputIndex));
+                }
+                validTxs.add(tx);
+            }
+        }
+        return (Transaction[]) validTxs.toArray();
+    }
 }
