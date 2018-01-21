@@ -1,25 +1,21 @@
 package crypto.transaction;
 
 import crypto.shared.Helper;
-import crypto.transaction.Transaction;
-import crypto.transaction.UTXOPool;
-import jdk.javadoc.internal.doclets.toolkit.util.DocFinder;
+import org.apache.log4j.Logger;
 
 import java.security.PublicKey;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
-import java.util.stream.DoubleStream;
 
 public class TxHandler {
+
+    final static Logger logger = Logger.getLogger(TxHandler.class);
 
     /**
      * Pool of all unspent transaction outputs (value --> address), which is essentially a list
      * of all value hold by the addresses the value was sent to.
      */
-    private UTXOPool utxoPool;
+    public UTXOPool utxoPool;
 
     /**
      * Creates a public ledger whose current UTXOPool (collection of unspent transaction outputs) is

@@ -5,6 +5,8 @@ import java.util.ArrayList;
 
 public class Helper {
 
+
+
     /**
      * This method takes a public key, a message and a signature, and returns true if and only if
      * the signature correctly verifies over message with the public key publicKey.
