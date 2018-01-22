@@ -45,7 +45,18 @@ public class TxHandlerTest extends TestCase {
      * @return Valid random Transaction
      */
     private Transaction generateRandomValidTransaction(PublicKey address) {
+
+
         return null;
+    }
+
+    /**
+     * Generate a random positive value between 0 and 1,000,000
+     * @return Positive value
+     */
+    private double generateRandomPositiveValue() {
+
+        return 1e6 *  this.random.nextDouble();
     }
 
     /**
@@ -56,9 +67,19 @@ public class TxHandlerTest extends TestCase {
 
         super.setUp();
 
+        this.addresses = Crypto.generateRandomKeyPairs(100);
+
         UTXOPool utxoPool = new UTXOPool();
 
-        this.addresses = Crypto.generateRandomKeyPairs(100);
+        Transaction genesisTx = new Transaction();
+        for (KeyPair address : addresses) {
+            genesisTx.addOutput(this.generateRandomPositiveValue(), address.getPublic());
+        }
+        byte[] txHash = genesisTx.getHash();
+        for (int outputIndex=0; outputIndex < genesisTx.numberOfOutputs(); outputIndex++) {
+
+            utxoPool.addUTXO(new UTXO(txHash, outputIndex), genesisTx.getOutput(outputIndex));
+        }
         this.txHandler = new TxHandler(utxoPool);
     }
 

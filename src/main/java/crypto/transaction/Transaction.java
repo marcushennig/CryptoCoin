@@ -28,8 +28,8 @@ public class Transaction {
      */
     public Transaction() {
 
-        this.inputs = new ArrayList<Input>();
-        this.outputs = new ArrayList<Output>();
+        this.inputs = new ArrayList<>();
+        this.outputs = new ArrayList<>();
     }
 
     /**
@@ -39,8 +39,8 @@ public class Transaction {
     public Transaction(Transaction transaction) {
 
         this.hash = transaction.hash.clone();
-        this.inputs = new ArrayList<Input>(transaction.inputs);
-        this.outputs = new ArrayList<Output>(transaction.outputs);
+        this.inputs = new ArrayList<>(transaction.inputs);
+        this.outputs = new ArrayList<>(transaction.outputs);
     }
 
     /**
