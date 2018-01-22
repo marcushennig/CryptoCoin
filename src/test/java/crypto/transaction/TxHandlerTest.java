@@ -1,9 +1,13 @@
 package crypto.transaction;
 
+import crypto.shared.Crypto;
+import crypto.shared.Helper;
 import junit.framework.TestCase;
 import org.apache.log4j.Logger;
 
 import javax.xml.bind.DatatypeConverter;
+import java.nio.ByteBuffer;
+import java.nio.charset.StandardCharsets;
 import java.security.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,11 +30,6 @@ public class TxHandlerTest extends TestCase {
     /** Address space */
     private List<KeyPair> addresses;
 
-    /** Address size */
-    private final int keySize = 1024;
-
-
-
     /**
      * Generates a random valid transaction
      * @param address Public key of the person generating the random transaction
@@ -50,44 +49,6 @@ public class TxHandlerTest extends TestCase {
     }
 
     /**
-     * Generate a given number of addresses (which consists of public/private key pairs)
-      * @param numberOfAddresses Number of addresses to be generated
-     */
-    private List<KeyPair> generateRandomKeyPairs(int numberOfAddresses) {
-
-        List<KeyPair> keyPairs = new ArrayList<>();
-        try {
-
-            KeyPairGenerator keyGenerator = KeyPairGenerator.getInstance("DSA", "SUN");
-
-            // Set key length and the source of randomness
-            // TODO: Create seed in byte[]
-            SecureRandom secureRandom = new SecureRandom();
-            keyGenerator.initialize(keySize, secureRandom);
-
-            for (int n = 0; n < numberOfAddresses; n++) {
-
-                KeyPair keyPair = keyGenerator.generateKeyPair();
-
-                logger.info(String.format("Generated new Address: (%s, %s)",
-                        DatatypeConverter.printHexBinary(keyPair.getPublic().getEncoded()),
-                        DatatypeConverter.printHexBinary(keyPair.getPrivate().getEncoded())));
-
-                keyPairs.add(keyPair);
-            }
-            return keyPairs;
-
-        } catch (NoSuchAlgorithmException | NoSuchProviderException e) {
-
-            logger.error(String.format("Could not create addresses as the following error occurred: %s",
-                    e.getMessage()));
-
-            e.printStackTrace();
-            return keyPairs;
-        }
-    }
-
-    /**
      * Set up unit test
      * @throws Exception If anything goes wrong
      */
@@ -97,9 +58,24 @@ public class TxHandlerTest extends TestCase {
 
         UTXOPool utxoPool = new UTXOPool();
 
-        this.addresses = this.generateRandomKeyPairs(100);
-
+        this.addresses = Crypto.generateRandomKeyPairs(100);
         this.txHandler = new TxHandler(utxoPool);
+    }
+
+    /**
+     * Test signature
+     */
+    public void testSignature() {
+
+        String messageStr = "Hello crypto coin, what's up";
+        byte[] message = messageStr.getBytes(StandardCharsets.UTF_8); //
+
+        for (KeyPair address: this.addresses) {
+
+            byte[] signature = Crypto.sign(address.getPrivate(), message);
+            assertTrue(Crypto.verifySignature(address.getPublic(), message, signature));
+        }
+
     }
 
     public void testIsValidTx() {

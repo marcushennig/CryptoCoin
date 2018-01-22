@@ -1,5 +1,6 @@
 package crypto.transaction;
 
+import crypto.shared.Crypto;
 import crypto.shared.Helper;
 import org.apache.log4j.Logger;
 
@@ -69,7 +70,7 @@ public class TxHandler {
             PublicKey publicKey = output.address;
             ArrayList<Byte> message = input.getRawDataWithoutSignature();
 
-            if(!Helper.verifySignature(publicKey, Helper.convertToByteArray(message), signature)) {
+            if(!Crypto.verifySignature(publicKey, Helper.convertToByteArray(message), signature)) {
                 return false;
             }
         }
