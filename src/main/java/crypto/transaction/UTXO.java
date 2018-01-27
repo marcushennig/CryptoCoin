@@ -120,6 +120,6 @@ public class UTXO implements Comparable<UTXO> {
     @Override
     public String toString() {
 
-        return String.format("%s @ %d", Base58.encode(this.txHash), this.index);
+        return String.format("Tx:%s@%d", Base58.encode(this.txHash), this.index);
     }
 }

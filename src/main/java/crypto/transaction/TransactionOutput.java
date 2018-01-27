@@ -9,7 +9,7 @@ import java.util.ArrayList;
 /**
  * Transaction output
  */
-public class Output {
+public class TransactionOutput {
 
     /** The value of the output */
     public double value;
@@ -22,7 +22,7 @@ public class Output {
      * @param value Value of the output
      * @param address Public key to which the value is paid
      */
-    public Output(double value, PublicKey address) {
+    public TransactionOutput(double value, PublicKey address) {
 
         this.value = value;
         this.address = address;

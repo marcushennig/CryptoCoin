@@ -75,9 +75,6 @@ public class TxHandlerTest extends TestCase {
         for (KeyPair address : addresses) {
             genesisTx.addOutput(this.generateRandomPositiveValue(), address.getPublic());
         }
-        // Compute the hash of the transaction
-        genesisTx.finish();
-
 
         byte[] txHash = genesisTx.getHash();
         for (int outputIndex=0; outputIndex < genesisTx.numberOfOutputs(); outputIndex++) {

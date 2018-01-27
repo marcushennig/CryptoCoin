@@ -8,7 +8,7 @@ public class UTXOPool {
     /**
      * The current collection of UTXOs, with each one mapped to its corresponding transaction output
      */
-    private HashMap<UTXO, Output> H;
+    private HashMap<UTXO, TransactionOutput> H;
 
     /**
      * Creates a new empty UTXOPool
@@ -32,7 +32,7 @@ public class UTXOPool {
      * @param utxo unspent transaction output
      * @param txOut transaction output
      */
-    public void addUTXO(UTXO utxo, Output txOut) {
+    public void addUTXO(UTXO utxo, TransactionOutput txOut) {
 
         H.put(utxo, txOut);
     }
@@ -50,7 +50,7 @@ public class UTXOPool {
      * @return the transaction output corresponding to UTXO {@code utxo}, or null if {@code utxo} is
      *         not in the pool.
      */
-    public Output getTxOutput(UTXO utxo) {
+    public TransactionOutput getTxOutput(UTXO utxo) {
 
         return H.get(utxo);
     }

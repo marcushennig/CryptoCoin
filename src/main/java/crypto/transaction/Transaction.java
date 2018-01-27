@@ -1,5 +1,6 @@
 package crypto.transaction;
 
+import crypto.shared.Base58;
 import crypto.shared.Helper;
 
 import java.security.MessageDigest;
@@ -16,12 +17,13 @@ import java.util.ArrayList;
  */
 public class Transaction {
 
-    /** Hash of the transaction, its unique id */
+    /** Hash of the transaction,
+     * used as a reference by transaction inputs via outpoints.*/
     private byte[] hash;
 
-    private ArrayList<Input> inputs;
+    private ArrayList<TransactionInput> inputs;
 
-    private ArrayList<Output> outputs;
+    private ArrayList<TransactionOutput> outputs;
 
     /**
      * Constructor
@@ -50,7 +52,7 @@ public class Transaction {
      */
     public void addInput(byte[] prevTxHash, int outputIndex) {
 
-        Input input = new Input(prevTxHash, outputIndex);
+        TransactionInput input = new TransactionInput(prevTxHash, outputIndex);
         this.inputs.add(input);
     }
 
@@ -61,7 +63,7 @@ public class Transaction {
      */
     public void addOutput(double value, PublicKey address) {
 
-        Output output = new Output(value, address);
+        TransactionOutput output = new TransactionOutput(value, address);
         this.outputs.add(output);
     }
 
@@ -82,7 +84,7 @@ public class Transaction {
 
         for (int i = 0; i < this.inputs.size(); i++) {
 
-            Input input = this.inputs.get(i);
+            TransactionInput input = this.inputs.get(i);
 
             UTXO utxo = new UTXO(input.prevTxHash, input.outputIndex);
 
@@ -104,7 +106,7 @@ public class Transaction {
         if (index > this.inputs.size()) {
             return null;
         }
-        Input input = this.inputs.get(index);
+        TransactionInput input = this.inputs.get(index);
 
         // Get bytes of ith input
         final ArrayList<Byte> signatureData = new ArrayList<>(input.getRawDataWithoutSignature());
@@ -140,50 +142,53 @@ public class Transaction {
     }
 
     /**
-     * Finish transaction by computing the hash
-     */
-    public void finish() {
-
-        try {
-
-            MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
-
-            messageDigest.update(this.getRawData());
-
-            this.hash = messageDigest.digest();
-
-        } catch (NoSuchAlgorithmException exception) {
-
-            exception.printStackTrace(System.err);
-        }
-    }
-
-
-    public void setHash(byte[] hash) {
-
-        this.hash = hash;
-    }
-
+     * Returns the transaction hash. It is used as a reference by
+     * transaction inputs via outpoints.
+    */
     public byte[] getHash() {
-        return hash;
+
+        if(this.hash == null) {
+
+            try {
+
+                MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
+
+                messageDigest.update(this.getRawData());
+
+                this.hash = messageDigest.digest();
+
+            } catch (NoSuchAlgorithmException exception) {
+
+                exception.printStackTrace(System.err);
+            }
+        }
+        return this.hash;
     }
 
-    public ArrayList<Input> getInputs() {
+    /**
+     * Returns the transaction hash as a Base58 string.
+     */
+    public String getHashAsString() {
+
+        return Base58.encode(this.getHash());
+    }
+
+    public ArrayList<TransactionInput> getInputs() {
         return inputs;
     }
 
-    public ArrayList<Output> getOutputs() {
+    public ArrayList<TransactionOutput> getOutputs() {
         return outputs;
     }
 
-    public Input getInput(int index) {
+    public TransactionInput getInput(int index) {
         if (index < inputs.size()) {
             return inputs.get(index);
         }
         return null;
     }
 
-    public Output getOutput(int index) {
+    public TransactionOutput getOutput(int index) {
         if (index < outputs.size()) {
             return outputs.get(index);
         }

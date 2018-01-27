@@ -45,7 +45,7 @@ public class TxHandler {
         // I can only spend stuff, that wasn't spent before
         ArrayList<UTXO> claimedUtxos = new ArrayList<>();
 
-        for (Input input: tx.getInputs()) {
+        for (TransactionInput input: tx.getInputs()) {
 
             UTXO utxo = new UTXO(input.prevTxHash, input.outputIndex);
             if(this.utxoPool.contains(utxo)) {
@@ -56,7 +56,7 @@ public class TxHandler {
         }
 
         // (2) The signature on each input of {@code transaction} is valid,
-        for (Input input: tx.getInputs()) {
+        for (TransactionInput input: tx.getInputs()) {
 
             // UTXO that the user has control of and that was used as
             // input for the transaction
@@ -64,7 +64,7 @@ public class TxHandler {
 
             // The corresponding output of a previous transaction
             // that generated the UTXO
-            Output output = this.utxoPool.getTxOutput(utxo);
+            TransactionOutput output = this.utxoPool.getTxOutput(utxo);
 
             byte[] signature = input.signature;
             PublicKey publicKey = output.address;
@@ -113,14 +113,14 @@ public class TxHandler {
 
             if(this.isValidTx(tx)) {
 
-                for (Input input: tx.getInputs()) {
+                for (TransactionInput input: tx.getInputs()) {
 
                     // Claimed UTXO by input, remove from UTXO-pool
                     UTXO utxo = new UTXO(input.prevTxHash, input.outputIndex);
                     utxoPool.removeUTXO(utxo);
                 }
 
-                ArrayList<Output> outputs =tx.getOutputs();
+                ArrayList<TransactionOutput> outputs =tx.getOutputs();
                 for (int outputIndex = 0;  outputIndex < outputs.size();  outputIndex++) {
 
                     UTXO utxo = new UTXO(tx.getHash(), outputIndex);

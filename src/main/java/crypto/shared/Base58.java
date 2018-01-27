@@ -1,5 +1,3 @@
-package crypto.shared;
-
 /*
 * Copyright 2011 Google Inc.
 *
@@ -15,9 +13,8 @@ package crypto.shared;
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
+package crypto.shared;
 
-
-import java.math.BigInteger;
 import java.util.Arrays;
 
 /**
@@ -132,10 +129,6 @@ public class Base58 {
         }
         // Return decoded data (including original number of leading zeros).
         return Arrays.copyOfRange(decoded, outputStart - zeros, decoded.length);
-    }
-
-    public static BigInteger decodeToBigInteger(String input) throws AddressFormatException {
-        return new BigInteger(1, decode(input));
     }
 
     /**

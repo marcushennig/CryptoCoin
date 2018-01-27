@@ -1,5 +1,7 @@
 package crypto.transaction;
 
+import crypto.shared.Base58;
+
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -9,7 +11,7 @@ import java.util.Arrays;
  * The input points to a transaction (prevTxHash = unique ID) and the index of the output
  * (value --> address).
  */
-public class Input {
+public class TransactionInput {
 
     /** Hash of the Transaction whose output is being used */
     public byte[] prevTxHash;
@@ -25,7 +27,7 @@ public class Input {
      * @param prevHash Hash of previous transaction
      * @param index Index
      */
-    public Input(byte[] prevHash, int index) {
+    public TransactionInput(byte[] prevHash, int index) {
 
         if (prevHash == null) {
 
@@ -88,5 +90,11 @@ public class Input {
             }
         }
         return rawData;
+    }
+
+    @Override
+    public String toString() {
+
+        return String.format("Output %d@Tx:%s", this.outputIndex, Base58.encode(this.prevTxHash));
     }
 }
