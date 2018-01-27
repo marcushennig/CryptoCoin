@@ -1,5 +1,3 @@
-package crypto;
-
 /**
  * Hello world!
  *
