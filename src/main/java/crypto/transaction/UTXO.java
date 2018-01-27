@@ -1,5 +1,7 @@
 package crypto.transaction;
 
+import crypto.shared.Base58;
+
 import java.util.Arrays;
 
 /**
@@ -113,5 +115,11 @@ public class UTXO implements Comparable<UTXO> {
                 return 0;
             }
         }
+    }
+
+    @Override
+    public String toString() {
+
+        return String.format("%s @ %d", Base58.encode(this.txHash), this.index);
     }
 }

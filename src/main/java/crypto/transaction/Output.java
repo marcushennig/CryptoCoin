@@ -1,5 +1,7 @@
 package crypto.transaction;
 
+import crypto.shared.Base58;
+
 import java.nio.ByteBuffer;
 import java.security.PublicKey;
 import java.util.ArrayList;
@@ -47,5 +49,11 @@ public class Output {
         }
 
         return rawData;
+    }
+
+    @Override
+    public String toString() {
+
+        return String.format("$ %f --> %s", this.value, Base58.encode(this.address.getEncoded()));
     }
 }

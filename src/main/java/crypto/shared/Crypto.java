@@ -55,6 +55,28 @@ public class Crypto {
     }
 
     /**
+     * Generate a Hash for the given data
+     * @param data Data
+     * @return Hash
+     */
+    public static byte[] generateHash(byte[] data) {
+        try {
+
+            MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
+
+            messageDigest.update(data);
+
+            return messageDigest.digest();
+
+        } catch (NoSuchAlgorithmException exception) {
+
+            exception.printStackTrace(System.err);
+
+            return null;
+        }
+    }
+
+    /**
      * Sign a message with given private key
      * @param privateKey Private key
      * @param message Message

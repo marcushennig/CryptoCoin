@@ -139,7 +139,11 @@ public class Transaction {
         return Helper.convertToByteArray(rawData);
     }
 
-    public void finalize() {
+    /**
+     * Finish transaction by computing the hash
+     */
+    public void finish() {
+
         try {
 
             MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
@@ -148,14 +152,15 @@ public class Transaction {
 
             this.hash = messageDigest.digest();
 
-        } catch (NoSuchAlgorithmException x) {
+        } catch (NoSuchAlgorithmException exception) {
 
-            x.printStackTrace(System.err);
+            exception.printStackTrace(System.err);
         }
     }
 
 
     public void setHash(byte[] hash) {
+
         this.hash = hash;
     }
 
