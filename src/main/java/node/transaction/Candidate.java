@@ -6,8 +6,11 @@ package node.transaction;
  */
 public class Candidate {
 
-    private Transaction tx;
-	private int sender;
+    /** Transaction that is a possible candidate for consensus */
+    public Transaction tx;
+
+	/** Index of the node that send the transaction */
+    public int sender;
 
     /**
      * Build a new candidate for transaction

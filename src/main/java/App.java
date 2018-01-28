@@ -1,6 +1,5 @@
 import node.Simulation;
 
-import java.net.SocketImpl;
 import java.util.Arrays;
 
 /**
@@ -23,9 +22,10 @@ public class App
 
                         Simulation nodeSimulation = new Simulation(numNodes,
                                 pGraph,
-                                pTxDistribution,
                                 pMalicious,
+                                pTxDistribution,
                                 numRounds);
+
                         nodeSimulation.run();
                     }
                 }

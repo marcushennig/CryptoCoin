@@ -5,10 +5,7 @@ import node.transaction.Candidate;
 import node.transaction.Transaction;
 import org.apache.log4j.Logger;
 
-import java.util.HashSet;
-import java.util.Random;
-import java.util.Set;
-import java.util.HashMap;
+import java.util.*;
 
 /**
  * Example of a Simulation. This test runs the nodes on a random graph.
@@ -142,8 +139,7 @@ public class Simulation {
 
                 if (Math.random() < pTxDistribution) {
 
-                // pTxDistribution is .01, .05, or .10.
-                pendingTransactions.add(new Transaction(txID));
+                    pendingTransactions.add(new Transaction(txID));
                 }
             }
             nodes[i].setPendingTransaction(pendingTransactions);

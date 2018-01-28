@@ -16,6 +16,24 @@
         </configuration>
         <version>3.7.0</version>
       </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+       <executions>
+            <execution>
+                <goals>
+                    <goal>java</goal>
+                </goals>
+            </execution>
+        </executions>
+        <configuration>
+            <mainClass>main.java.App</mainClass>
+            <arguments>
+                <argument>foo</argument>
+                <argument>bar</argument>
+            </arguments>
+        </configuration>
+      </plugin>
     </plugins>
   </build>
   <packaging>jar</packaging>
