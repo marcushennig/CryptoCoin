@@ -1,7 +1,7 @@
-package node;
+package consensus.nodes;
 
-import node.transaction.Candidate;
-import node.transaction.Transaction;
+import consensus.transaction.Candidate;
+import consensus.transaction.Transaction;
 
 import java.util.Random;
 import java.util.Set;

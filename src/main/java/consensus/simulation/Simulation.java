@@ -1,11 +1,11 @@
-package node.simulation;
+package consensus.simulation;
 
 import crypto.transaction.TxHandler;
-import node.CompliantNode;
-import node.Node;
-import node.MaliciousNode;
-import node.transaction.Candidate;
-import node.transaction.Transaction;
+import consensus.nodes.CompliantNode;
+import consensus.nodes.Node;
+import consensus.nodes.MaliciousNode;
+import consensus.transaction.Candidate;
+import consensus.transaction.Transaction;
 import org.apache.log4j.Logger;
 
 import java.util.*;

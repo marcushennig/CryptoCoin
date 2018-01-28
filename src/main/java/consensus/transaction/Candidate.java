@@ -1,4 +1,4 @@
-package node.transaction;
+package consensus.transaction;
 
 import lombok.Data;
 

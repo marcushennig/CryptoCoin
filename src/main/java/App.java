@@ -1,4 +1,4 @@
-import node.simulation.Simulation;
+import consensus.simulation.Simulation;
 
 /**
  * Hello world!

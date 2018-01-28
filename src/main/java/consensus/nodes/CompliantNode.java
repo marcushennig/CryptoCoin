@@ -1,7 +1,7 @@
-package node;
+package consensus.nodes;
 
-import node.transaction.Candidate;
-import node.transaction.Transaction;
+import consensus.transaction.Candidate;
+import consensus.transaction.Transaction;
 import org.apache.log4j.Logger;
 
 import java.util.*;
