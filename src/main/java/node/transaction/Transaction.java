@@ -1,15 +1,20 @@
-package node;
+package node.transaction;
 
+/**
+ * Simple class for transaction use more complicated own later
+ */
 final public class Transaction {
-    final int id;
+
+    public final int id;
 
     public Transaction(int id) {
+
         this.id = id;
     }
 
     @Override
-    /**  @return true if this Transaction has the same id as {@code obj} */
     public boolean equals(Object obj) {
+
         if (obj == null) {
             return false;
         }
@@ -17,14 +22,13 @@ final public class Transaction {
             return false;
         }
         final Transaction other = (Transaction) obj;
-        if (this.id != other.id) {
-            return false;
-        }
-        return true;
+
+        return this.id == other.id;
     }
 
     @Override
     public int hashCode() {
+
         return id;
     }
 }

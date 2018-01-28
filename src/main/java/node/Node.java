@@ -1,5 +1,8 @@
 package node;
 
+import node.transaction.Candidate;
+import node.transaction.Transaction;
+
 import java.util.Set;
 
 public interface Node {
