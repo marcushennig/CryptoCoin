@@ -162,7 +162,7 @@ public class Simulation {
 
                 for (Transaction tx : proposals) {
 
-                    if (!validTxIds.contains(tx.id)) {
+                    if (!validTxIds.contains(tx.getId())) {
                         continue; // ensure that each tx is actually valid
                     }
 
@@ -197,7 +197,7 @@ public class Simulation {
             System.out.println("Transaction ids that Node " + i + " believes consensus on:");
 
             for (Transaction tx : transactions) {
-                System.out.println(tx.id);
+                System.out.println(tx.getId());
             }
             System.out.println();
             System.out.println();

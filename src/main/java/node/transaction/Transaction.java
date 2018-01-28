@@ -1,12 +1,15 @@
 package node.transaction;
 
+import lombok.Data;
+
 /**
  * The Transaction class, a transaction being merely a wrapper around a unique identifier
  * (i.e., the validity and semantics of transactions are irrelevant to this assignment)
  */
+@Data
 final public class Transaction {
 
-    public final int id;
+    private final int id;
 
     /**
      * Build transaction

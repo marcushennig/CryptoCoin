@@ -115,9 +115,9 @@ public class CompliantNode implements Node {
         for (Candidate candidate: candidates) {
 
             // Node proposing the transaction
-            int sender = candidate.sender;
+            int sender = candidate.getSender();
             // Transaction being proposed
-            Transaction tx = candidate.tx;
+            Transaction tx = candidate.getTx();
 
             if(!this.isTrustedNode(sender)){
 

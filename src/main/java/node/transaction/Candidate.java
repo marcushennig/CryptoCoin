@@ -1,16 +1,19 @@
 package node.transaction;
 
+import lombok.Data;
+
 /**
  * A simple class to describe candidate transactions
  * a node receives
  */
+@Data
 public class Candidate {
 
     /** Transaction that is a possible candidate for consensus */
-    public Transaction tx;
+    private Transaction tx;
 
 	/** Index of the node that send the transaction */
-    public int sender;
+    private int sender;
 
     /**
      * Build a new candidate for transaction
