@@ -66,9 +66,9 @@ public class Simulation {
 
             if(Math.random() < pMalicious) {
 
-                // When you are ready to try testing with malicious nodes, replace the
+                // TODO: When you are ready to try testing with malicious nodes, replace the
                 // instantiation below with an instantiation of a MaliciousNode
-                nodes[i] = new MaliciousNode(pGraph, pMalicious, pTxDistribution, numRounds);
+                nodes[i] = new CompliantNode(pGraph, pMalicious, pTxDistribution, numRounds);
 
             } else {
 
@@ -93,7 +93,6 @@ public class Simulation {
 
                 if(Math.random() < pGraph) {
 
-                    // pGraph is .1, .2, or .3
                     followees[i][j] = true;
                 }
             }

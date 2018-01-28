@@ -16,9 +16,6 @@ public class CompliantNode implements Node {
 
     private final static Logger logger = Logger.getLogger(CompliantNode.class);
 
-    /** The number of nodes in the simulation */
-    private int numNodes;
-
     /** The pairwise connectivity probability of the random graph */
     private double pGraph;
 
@@ -34,8 +31,10 @@ public class CompliantNode implements Node {
     private boolean[] followees;
     private int numberOfFollowees;
 
+    private int counter;
+
     /** Proposals from each node */
-    private HashMap<Transaction, Set<Integer>> proposals;
+    private HashMap<Transaction, Set<Integer>> pendingTransactions;
 
     /**
      * Build compliant node
@@ -49,8 +48,9 @@ public class CompliantNode implements Node {
         this.pGraph = pGraph;
         this.pMalicious = pMalicious;
         this.pTxDistribution = pTxDistribution;
-        this.numNodes = numRounds;
-        this.proposals = new HashMap<>();
+        this.numRounds = numRounds;
+        this.pendingTransactions = new HashMap<>();
+        this.counter = 0;
     }
 
     /** {@code followees[i]} is true if and only if this node follows node {@code i} */
@@ -77,11 +77,11 @@ public class CompliantNode implements Node {
             }
         }
 
-        this.proposals.clear();
+        this.pendingTransactions.clear();
 
         for (Transaction tx: pendingTransactions) {
 
-            this.proposals.put(tx, nodes);
+            this.pendingTransactions.put(tx, nodes);
         }
     }
 
@@ -91,24 +91,22 @@ public class CompliantNode implements Node {
      */
     public Set<Transaction> sendToFollowers() {
 
+        this.counter ++;
+
         Set<Transaction> consensus = new HashSet<>();
         // Push all transactions into the pending transactions that this node believes consensus on
-        for (Transaction tx: this.proposals.keySet()) {
+        for (Transaction tx: this.pendingTransactions.keySet()) {
 
-
-            Set<Integer> nodes = proposals.get(tx);
-            double vote = ((double) nodes.size()) / this.numberOfFollowees;
-            if(vote > 0.5) {
+            int numberOfNodesProposingTransaction = pendingTransactions.get(tx).size();
+            if(numberOfNodesProposingTransaction >= pTxDistribution * (1 - pMalicious) * numberOfFollowees) {
 
                 consensus.add(tx);
-
-            } else {
-
-                logger.warn(String.format("Transaction %d has less then 50%% of the votes", tx.id));
             }
         }
-        this.proposals.clear();
 
+        for (Transaction tx: consensus) {
+            pendingTransactions.remove(tx);
+        }
         return consensus;
     }
 
@@ -132,8 +130,9 @@ public class CompliantNode implements Node {
         // For each candidate save the index of the node that sent it
         for (Candidate candidate: candidates) {
 
-            // Node that sent the candidate transaction
+            // Node proposing the transaction
             int sender = candidate.sender;
+            // Transaction being proposed
             Transaction tx = candidate.tx;
 
             if(!this.isTrustedNode(sender)){
@@ -142,13 +141,13 @@ public class CompliantNode implements Node {
                 continue;
             }
 
-            if(this.proposals.containsKey(tx)) {
+            if(this.pendingTransactions.containsKey(tx)) {
 
-                this.proposals.get(tx).add(sender);
+                this.pendingTransactions.get(tx).add(sender);
 
             } else {
 
-                this.proposals.put(tx, new HashSet<>(Collections.singletonList(sender)));
+                this.pendingTransactions.put(tx, new HashSet<>(Collections.singletonList(sender)));
             }
         }
     }
