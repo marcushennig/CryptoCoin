@@ -1,13 +1,10 @@
 package node;
 
-import crypto.transaction.TxHandler;
 import node.transaction.Candidate;
 import node.transaction.Transaction;
 import org.apache.log4j.Logger;
 
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * CompliantNode refers to a node that follows the rules (not malicious)
@@ -16,24 +13,14 @@ public class CompliantNode implements Node {
 
     private final static Logger logger = Logger.getLogger(CompliantNode.class);
 
-    /** The pairwise connectivity probability of the random graph */
-    private double pGraph;
-
     /**  The Probability that a node will be set to be malicious*/
     private double pMalicious;
 
     /** The probability that each of the initial valid transactions will be communicated */
     private double pTxDistribution;
 
-    /** Number of simulation rounds your nodes will run for*/
-    private int numRounds;
-
     private boolean[] followees;
     private int numberOfFollowees;
-
-    private int counter;
-
-    /** Proposals from each node */
     private HashMap<Transaction, Set<Integer>> pendingTransactions;
 
     /**
@@ -45,15 +32,13 @@ public class CompliantNode implements Node {
      */
     public CompliantNode(double pGraph, double pMalicious, double pTxDistribution, int numRounds) {
 
-        this.pGraph = pGraph;
         this.pMalicious = pMalicious;
         this.pTxDistribution = pTxDistribution;
-        this.numRounds = numRounds;
         this.pendingTransactions = new HashMap<>();
-        this.counter = 0;
     }
 
     /** {@code followees[i]} is true if and only if this node follows node {@code i} */
+    @Override
     public void setFollowees(boolean[] followees) {
 
         this.followees = followees;
@@ -65,7 +50,19 @@ public class CompliantNode implements Node {
         }
     }
 
+    /**
+     * Check is node can be trusted
+     * @param node Node index
+     * @return True if node is trusted, otherwise false
+     */
+    private boolean isTrustedNode(int node) {
+
+        return node <= this.followees.length &&
+                this.followees[node];
+    }
+
     /** Initialize proposal list of transactions */
+    @Override
     public void setPendingTransaction(Set<Transaction> pendingTransactions) {
 
         Set<Integer> nodes = new HashSet<>();
@@ -76,9 +73,7 @@ public class CompliantNode implements Node {
                 nodes.add(node);
             }
         }
-
         this.pendingTransactions.clear();
-
         for (Transaction tx: pendingTransactions) {
 
             this.pendingTransactions.put(tx, nodes);
@@ -89,9 +84,8 @@ public class CompliantNode implements Node {
      * Send valid transactions to followers
      * @return Set of transaction that was send to followers
      */
+    @Override
     public Set<Transaction> sendToFollowers() {
-
-        this.counter ++;
 
         Set<Transaction> consensus = new HashSet<>();
         // Push all transactions into the pending transactions that this node believes consensus on
@@ -111,20 +105,10 @@ public class CompliantNode implements Node {
     }
 
     /**
-     * Check is node can be trusted
-     * @param node Node index
-     * @return True if node is trusted, otherwise false
-     */
-    private boolean isTrustedNode(int node) {
-
-        return node <= this.followees.length &&
-               this.followees[node];
-    }
-
-    /**
      * Each node receives candidates from its followees
      * @param candidates Set of candidate transactions
      */
+    @Override
     public void receiveFromFollowees(Set<Candidate> candidates) {
 
         // For each candidate save the index of the node that sent it

@@ -1,6 +1,4 @@
-import node.Simulation;
-
-import java.util.Arrays;
+import node.simulation.Simulation;
 
 /**
  * Hello world!

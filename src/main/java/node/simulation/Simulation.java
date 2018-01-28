@@ -1,6 +1,9 @@
-package node;
+package node.simulation;
 
 import crypto.transaction.TxHandler;
+import node.CompliantNode;
+import node.Node;
+import node.MaliciousNode;
 import node.transaction.Candidate;
 import node.transaction.Transaction;
 import org.apache.log4j.Logger;
@@ -19,19 +22,19 @@ public class Simulation {
     final static Logger logger = Logger.getLogger(TxHandler.class);
 
     /** The number of nodes in the simulation */
-    private int numNodes;
+    public int numNodes;
 
     /** The pairwise connectivity probability of the random graph */
-    private double pGraph;
+    public double pGraph;
 
     /**  The Probability that a node will be set to be malicious*/
-    private double pMalicious;
+    public double pMalicious;
 
     /** The probability that each of the initial valid transactions will be communicated */
-    private double pTxDistribution;
+    public double pTxDistribution;
 
     /** Number of simulation rounds your nodes will run for*/
-    private int numRounds;
+    public int numRounds;
 
     /**
      * Build the network simulation
@@ -68,7 +71,7 @@ public class Simulation {
 
                 // TODO: When you are ready to try testing with malicious nodes, replace the
                 // instantiation below with an instantiation of a MaliciousNode
-                nodes[i] = new CompliantNode(pGraph, pMalicious, pTxDistribution, numRounds);
+                nodes[i] = new MaliciousNode(pGraph, pMalicious, pTxDistribution, numRounds);
 
             } else {
 
