@@ -1,5 +1,9 @@
 package node.transaction;
 
+/**
+ * A simple class to describe candidate transactions
+ * a node receives
+ */
 public class Candidate {
 
     private Transaction tx;

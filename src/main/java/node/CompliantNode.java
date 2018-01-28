@@ -5,7 +5,10 @@ import node.transaction.Transaction;
 
 import java.util.Set;
 
-/* CompliantNode refers to a node that follows the rules (not malicious)*/
+/**
+ * CompliantNode refers to a node that follows the rules (not malicious)
+ * */
+
 public class CompliantNode implements Node {
 
     public CompliantNode(double p_graph, double p_malicious, double p_txDistribution, int numRounds) {

@@ -21,11 +21,20 @@ public class Simulation {
 
     final static Logger logger = Logger.getLogger(TxHandler.class);
 
-    private int numNodes = 100;
-    private double pGraph; // parameter for random graph: prob. that an edge will exist
-    private double pMalicious; // prob. that a node will be set to be malicious
-    private double pTxDistribution; // probability of assigning an initial transaction to each node
-    private int numRounds; // number of simulation rounds your nodes will run for
+    /** The number of nodes in the simulation */
+    private int numNodes;
+
+    /** The pairwise connectivity probability of the random graph */
+    private double pGraph;
+
+    /**  The Probability that a node will be set to be malicious*/
+    private double pMalicious;
+
+    /** The probability that each of the initial valid transactions will be communicated */
+    private double pTxDistribution;
+
+    /** Number of simulation rounds your nodes will run for*/
+    private int numRounds;
 
     /**
      * Build the network simulation
